@@ -1,37 +1,49 @@
 import React, { useState } from 'react';
 import { useParams } from "react-router-dom";
 import { apiRequest } from '../utils';
+import { useForm } from "react-hook-form";
+import { TextInput } from '../components';
+
 
 const ChangePasswordPage = () => {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [isPasswordChanged, setIsPasswordChanged] = useState(false);
   const params = useParams();
-  const handleSubmit = async (e) => {
 
-    e.preventDefault();
-    const data = {
-      userId : params.id,
-      token  : params.token,
-      password : confirmPassword,
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+  });
+
+  const onSubmit = async (data) => {
+
+    const body = {
+      userId: params.id,
+      token: params.token,
+      password: data.confirmPassword,
     }
+
+    console.log(body)
     try {
-      
+
       const res = await apiRequest({
         url: "/users/reset-password",
-        data: data,
+        data: body,
         method: "POST",
       })
       console.log(res)
-      if(!res.ok){
+      if (!res.ok) {
         setError(res.message)
       }
     }
 
-      catch{
-       
-      }    
+    catch {
+
+    }
     setIsPasswordChanged(true);
 
   };
@@ -45,21 +57,23 @@ const ChangePasswordPage = () => {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           {!isPasswordChanged ? (
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                   New password
                 </label>
                 <div className="mt-1">
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="new-password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  <TextInput
+                    name='password'
+                    label='Password'
+                    placeholder='Password'
+                    type='password'
+                    styles='w-full rounded-full'
+                    labelStyle='ml-2'
+                    register={register("password", {
+                      required: "Password is required!",
+                    })}
+                    error={errors.password ? errors.password?.message : ""}
                   />
                 </div>
               </div>
@@ -69,19 +83,29 @@ const ChangePasswordPage = () => {
                   Confirm password
                 </label>
                 <div className="mt-1">
-                  <input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    autoComplete="new-password"
-                    required
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  <TextInput
+                    name='confirmPassword'
+                    label='Confirm Password'
+                    placeholder='Confirm Password'
+                    type='password'
+                    styles='w-full rounded-full'
+                    labelStyle='ml-2'
+                    register={register("confirmPassword", {
+                      validate: (value) => {
+                        const { password } = getValues();
+                        if (password != value) {
+                          return "Passwords do no match";
+                        }
+                      },
+                    })}
+                    error={
+                      errors.confirmPassword && errors.confirmPassword.type === "validate"
+                        ? errors.confirmPassword?.message
+                        : ""
+                    }
                   />
                 </div>
               </div>
-
               <div>
                 <button
                   type="submit"
@@ -93,7 +117,7 @@ const ChangePasswordPage = () => {
             </form>
           ) : (
             <div>
-              <p className={`text-xl ${error? "text-[#ff4f4f]": "text-[#4cff70]"} font-bold text-gray-500 text-center`}>{error ? error : "Your password has been successfully changed."}</p>
+              <p className={`text-xl ${error ? "text-[#ff4f4f]" : "text-[#4cff70]"} font-bold text-gray-500 text-center`}>{error ? error : "Your password has been successfully changed."}</p>
             </div>
           )}
         </div>
