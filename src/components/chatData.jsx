@@ -7,13 +7,11 @@ function ChatData({chatUser}) {
   console.log(chatUser)
     
      return(
-      <div style={{ height: "100vh", width: "100vw" }}>
-      <PrettyChatWindow
-        projectId={"0838887b-b9d0-437c-bd9c-719bcf250e36"}
-        username={chatUser?.chatUser}
-        secret={chatUser?.chatUser}
-      />
-    </div>
+      <div>
+
+      </div>
+
+
 
      )  
       
@@ -22,3 +20,11 @@ function ChatData({chatUser}) {
     };
 
 export default ChatData;
+
+{/* <div style={{ height: "100vh", width: "100vw" }}>
+<PrettyChatWindow
+  projectId={"0838887b-b9d0-437c-bd9c-719bcf250e36"}
+  username={chatUser?.chatUser}
+  secret={chatUser?.chatUser}
+/>
+</div> */}
