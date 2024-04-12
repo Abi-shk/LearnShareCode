@@ -11,7 +11,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { SetTheme } from "../redux/theme";
 import { Logout } from "../redux/userSlice";
 import { apiRequest, fetchPosts } from "../utils";
-import {  BiUser } from "react-icons/bi";
+import { BiLogOut, BiMenu, BiUser } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
 import ProfileCard from "./ProfileCard";
 import { FaCode } from "react-icons/fa";
@@ -21,6 +21,7 @@ const TopBar = () => {
 
   const [modalOpen, setModalOpen] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
+  const [openDrawer, setOpenDrawer] = useState(false)
   const [nots, setNots] = useState([])
   const [notsNumber, setNotsNumber] = useState(0)
   const { theme } = useSelector((state) => state.theme);
@@ -83,8 +84,46 @@ const TopBar = () => {
     }
   }
 
+
+  const showNotificationModal=()=>{
+    setOpenDrawer(false)
+    setModalOpen(true)
+  }
+
+  const showAccountModal=()=>{
+    setOpenDrawer(false)
+    setShowProfile(true)
+  }
+
   return (
     <div className='topbar w-full flex items-center justify-between py-3 md:py-6 px-4 bg-primary'>
+
+
+      {modalOpen && (
+        <div className="absolute top-0 left-0 w-full h-screen bg-primary/80  flex justify-center items-center ">
+          <div className="w-3/4 min-h-[75%] bg-black custom-shadow rounded-xl">
+            <div className="flex flex-col items-center h-14 justify-center relative">
+              <h2 className="text-2xl font-semibold">Notifications</h2>
+              <MdClose className="absolute right-2 h-8 w-8 top-2 text-ascent-1 cursor-pointer" onClick={handleModalClose} />
+            </div>
+            <div className="flex flex-col gap-2 mt-2 p-2">
+              {nots?.length !== 0 && nots?.map((not) =>
+              (<div key={not._id} className={`w-full  flex-1 px-2 ${not.status === "NOTSEEN" ? "bg-ascent-2/50" : "bg-ascent-2/10"} flex justify-start rounded-md items-start h-24`}>
+                <div className='   p-2 rounded-lg text-white text-lg w-full '>
+                  <div className='flex gap-2 '>
+                    <img className='w-8 h-8 rounded-full aspect-square ' src={not.postImg} alt="" />
+                    <p className="text-ascent-1">{not.message}</p>
+                  </div>
+                  <p className='text-end px-2 text-sm italic text-ascent-1'>{not.createdAt}</p>
+                </div>
+              </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+
       <Link to='/' className='flex gap-2 items-center'>
         <div className='p-1 md:p-2 bg-[#065ad8] rounded text-white'>
           <TbSocial />
@@ -93,7 +132,7 @@ const TopBar = () => {
           LearnSharecode
         </span>
       </Link>
-      
+
       <form
         className='hidden md:flex items-center justify-center'
         onSubmit={handleSubmit(handleSearch)}
@@ -111,17 +150,13 @@ const TopBar = () => {
       </form>
 
       {/* ICONS */}
-      <div className='flex max-md:gap-2 gap-4 items-center text-ascent-1 text-md md:text-xl'>
+      <div className='flex max-md:gap-2 gap-4 max-md:hidden items-center text-ascent-1 text-md md:text-xl'>
 
-       <a href="https://www.programiz.com/c-programming/online-compiler/"><FaCode className="h-5 w-5"/></a> 
+        <a href="https://www.programiz.com/c-programming/online-compiler/"><FaCode className="h-5 w-5" /></a>
 
         <BiUser className="h-5 w-5 max-sm:flex hidden  " onClick={() => setShowProfile(true)} />
 
-        {showProfile &&
-          <div className="cursor-pointer absolute top-0 left-0 w-full h-screen bg-primary/90 flex justify-center items-center ">
-            <ProfileCard user={user} onSmallScreen={true} setShowProfile={setShowProfile} />
-          </div>
-        }
+
 
         <div className="flex flex-row cursor-pointer">
           <Link to='/chat'>
@@ -130,47 +165,61 @@ const TopBar = () => {
         </div>
 
         <div onClick={() => setModalOpen(true)} className='lg:flex cursor-pointer'>
-
           <IoMdNotificationsOutline className="h-5 w-5" />{notsNumber !== 0 && <span className="w-6 h-6 rounded-full bg-blue flex justify-center items-center text-sm text-white">{notsNumber}</span>}
         </div>
         <button onClick={() => handleTheme()}>
           {theme === "light" ? <BsMoon className="h-4 w-4" /> : <BsSunFill className="h-5 w-5" />}
         </button>
-
-        {modalOpen && (
-          <div className="absolute top-0 left-0 w-full h-screen bg-primary/80  flex justify-center items-center ">
-            <div className="w-3/4 min-h-[75%] bg-black custom-shadow rounded-xl">
-              <div className="flex flex-col items-center h-14 justify-center relative">
-                <h2 className="text-2xl font-semibold">Notifications</h2>
-                <MdClose className="absolute right-2 h-8 w-8 top-2 cursor-pointer" onClick={handleModalClose} />
-              </div>
-              <div className="flex flex-col gap-2 mt-2 p-2">
-                {nots?.length !== 0 && nots?.map((not) =>
-                (<div key={not._id} className={`w-full  flex-1 px-2 ${not.status === "NOTSEEN" ? "bg-ascent-2/50" : "bg-ascent-2/10"} flex justify-start rounded-md items-start h-24`}>
-                  <div className='   p-2 rounded-lg text-white text-lg w-full '>
-                    <div className='flex gap-2 '>
-                      <img className='w-8 h-8 rounded-full aspect-square ' src={not.postImg} alt="" />
-                      <p className="text-ascent-1">{not.message}</p>
-                    </div>
-                    <p className='text-end px-2 text-sm italic text-ascent-1'>{not.createdAt}</p>
-                  </div>
-                </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-
         <div>
           <CustomButton
             onClick={() => dispatch(Logout())}
             title='Log Out'
-            containerStyles='text-sm text-ascent-1 px-4 md:px-6 py-1 md:py-2 border border-[#666] rounded-full hover:bg-blue'
+            containerStyles='text-sm text-ascent-1 px-4 sm:text-xs md:px-6 py-1 md:py-2 border border-[#666] rounded-full hover:bg-blue'
           />
         </div>
       </div>
-    </div>
+
+
+      <div className="h-8 w-8 ml-auto max-sm:flex max-md:flex items-center hidden">
+        <BiMenu onClick={() => setOpenDrawer(!openDrawer)} className="h-8 w-8 text-ascent-1 cursor-pointer " />
+        {
+          openDrawer &&
+          <div className="absolute top-14 right-0 h-[230px] w-[150px] bg-primary flex flex-col justify-between ">
+            <div className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 text-lg bg-secondary px-4" >
+              <a className="flex  items-center gap-3 h-12" href="https://www.programiz.com/c-programming/online-compiler/"><FaCode className="h-5 w-5" /> Code</a>
+            </div>
+            <div onClick={showAccountModal} className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 text-lg bg-secondary px-4 h-12" >
+              <BiUser className="h-5 w-5  " />
+              Account
+            </div>
+
+            <Link className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 text-lg bg-secondary px-4 h-12" to='/chat' >
+              <TiMessages className="h-5 w-5" />
+              <p>Messages</p>
+            </Link>
+            <button onClick={() => handleTheme()}>
+              {theme === "light" ? <div className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 text-lg bg-secondary px-4 h-12" ><BsMoon className="h-4 w-4" />Dark Mode</div> : <div className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 text-lg bg-secondary px-4 h-12" > <BsSunFill className="h-5 w-5" /> Light Mode</div>}
+            </button>
+            <div onClick={showNotificationModal} className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 text-lg bg-secondary px-4 h-12" >
+              <IoMdNotificationsOutline className="h-5 w-5" />{notsNumber !== 0 && <span className="w-6 h-6 rounded-full bg-blue flex justify-center items-center text-sm text-ascent-1">{notsNumber}</span>}
+              Notifications
+            </div>
+
+            <div className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 text-lg bg-secondary px-4 h-12" onClick={() => dispatch(Logout())}><BiLogOut /> Logout</div>
+
+          </div>
+        }
+
+        {showProfile &&
+          <div className="cursor-pointer absolute top-0 left-0 w-full h-screen bg-primary/90 flex justify-center items-center ">
+            <ProfileCard user={user} onSmallScreen={true} setShowProfile={setShowProfile} />
+          </div>
+        }
+
+
+      </div>
+
+    </div >
   );
 };
 
