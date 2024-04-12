@@ -48,21 +48,6 @@ const TopBar = () => {
       }
 
     }, 5000)
-
-    // (async () => {
-    //   try {
-    //     const res = await apiRequest({
-    //       url: `/posts/notifications/${user._id}`,
-    //       token: user?.token,
-    //       method: "GET",
-    //       data: {},
-    //     });
-    //     console.log(res)
-    //     setNots(res);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // })()
   }, [])
   const {
     register,
@@ -130,7 +115,7 @@ const TopBar = () => {
 
        <a href="https://www.programiz.com/c-programming/online-compiler/"><FaCode className="h-7 w-7"/></a> 
 
-        <BiUser className="h-7 w-7 max-sm:flex hidden" onClick={() => setShowProfile(true)} />
+        <BiUser className="h-7 w-7 max-sm:flex hidden  " onClick={() => setShowProfile(true)} />
 
         {showProfile &&
           <div className="cursor-pointer absolute top-0 left-0 w-full h-screen bg-primary/90 flex justify-center items-center ">

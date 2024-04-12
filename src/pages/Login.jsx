@@ -59,7 +59,7 @@ const Login = () => {
       });
       console.log(res)
       if (res?.success === "failed") {
-        setErrMsg(res);
+        setErrMsg(res || res.message);
       }
       else {
         setErrMsg("");

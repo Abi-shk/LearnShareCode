@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { CustomButton } from '../components'
 import { Link, useParams } from "react-router-dom";
 import { apiRequest } from '../utils';
-import { FaTruckLoading } from 'react-icons/fa';
+
+import { BiLoader } from 'react-icons/bi';
 
 
 const EmailVerified = () => {
@@ -40,8 +41,8 @@ const EmailVerified = () => {
 
     return (
         loading ? (
-            <div>
-                <FaTruckLoading className='h-24 w-24 animate-spin'/>
+            <div className="w-full h-screen flex justify-center items-center">
+                <BiLoader className='h-24 w-24 animate-spin'/>
             </div>
         ) : (
 
