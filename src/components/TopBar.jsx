@@ -111,11 +111,11 @@ const TopBar = () => {
       </form>
 
       {/* ICONS */}
-      <div className='flex gap-4 items-center text-ascent-1 text-md md:text-xl'>
+      <div className='flex max-md:gap-2 gap-4 items-center text-ascent-1 text-md md:text-xl'>
 
-       <a href="https://www.programiz.com/c-programming/online-compiler/"><FaCode className="h-7 w-7"/></a> 
+       <a href="https://www.programiz.com/c-programming/online-compiler/"><FaCode className="h-5 w-5"/></a> 
 
-        <BiUser className="h-7 w-7 max-sm:flex hidden  " onClick={() => setShowProfile(true)} />
+        <BiUser className="h-5 w-5 max-sm:flex hidden  " onClick={() => setShowProfile(true)} />
 
         {showProfile &&
           <div className="cursor-pointer absolute top-0 left-0 w-full h-screen bg-primary/90 flex justify-center items-center ">
@@ -125,16 +125,16 @@ const TopBar = () => {
 
         <div className="flex flex-row cursor-pointer">
           <Link to='/chat'>
-            <TiMessages className="h-8 w-8" />
+            <TiMessages className="h-5 w-5" />
           </Link>
         </div>
 
         <div onClick={() => setModalOpen(true)} className='lg:flex cursor-pointer'>
 
-          <IoMdNotificationsOutline className="h-8 w-8" />{notsNumber !== 0 && <span className="w-6 h-6 rounded-full bg-blue flex justify-center items-center text-sm text-white">{notsNumber}</span>}
+          <IoMdNotificationsOutline className="h-5 w-5" />{notsNumber !== 0 && <span className="w-6 h-6 rounded-full bg-blue flex justify-center items-center text-sm text-white">{notsNumber}</span>}
         </div>
         <button onClick={() => handleTheme()}>
-          {theme === "light" ? <BsMoon className="h-6 w-6" /> : <BsSunFill className="h-7 w-7" />}
+          {theme === "light" ? <BsMoon className="h-4 w-4" /> : <BsSunFill className="h-5 w-5" />}
         </button>
 
         {modalOpen && (
