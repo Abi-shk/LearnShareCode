@@ -114,7 +114,7 @@ const TopBar = () => {
                     <img className='w-8 h-8 rounded-full aspect-square ' src={not.postImg} alt="" />
                     <p className="text-ascent-1">{not.message}</p>
                   </div>
-                  <p className='text-end px-2 text-sm italic text-ascent-1'>{not.createdAt}</p>
+                  <p className='text-end px-2 text-sm sm:text-xs italic text-ascent-1'>{not.createdAt}</p>
                 </div>
               </div>
               ))}
@@ -185,27 +185,27 @@ const TopBar = () => {
         {
           openDrawer &&
           <div className="absolute top-14 right-0 h-[230px] w-[150px] bg-primary flex flex-col justify-between ">
-            <div className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 text-lg bg-secondary px-4" >
+            <div className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 bg-secondary px-4 text-md" >
               <a className="flex  items-center gap-3 h-12" href="https://www.programiz.com/c-programming/online-compiler/"><FaCode className="h-5 w-5" /> Code</a>
             </div>
-            <div onClick={showAccountModal} className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 text-lg bg-secondary px-4 h-12" >
+            <div onClick={showAccountModal} className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 bg-secondary px-4 text-md h-12" >
               <BiUser className="h-5 w-5  " />
               Account
             </div>
 
-            <Link className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 text-lg bg-secondary px-4 h-12" to='/chat' >
+            <Link className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 bg-secondary px-4 text-md h-12" to='/chat' >
               <TiMessages className="h-5 w-5" />
               <p>Messages</p>
             </Link>
             <button onClick={() => handleTheme()}>
-              {theme === "light" ? <div className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 text-lg bg-secondary px-4 h-12" ><BsMoon className="h-4 w-4" />Dark Mode</div> : <div className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 text-lg bg-secondary px-4 h-12" > <BsSunFill className="h-5 w-5" /> Light Mode</div>}
+              {theme === "light" ? <div className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 bg-secondary px-4 text-md h-12" ><BsMoon className="h-4 w-4" />Dark Mode</div> : <div className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 bg-secondary px-4 text-md h-12" > <BsSunFill className="h-5 w-5" /> Light Mode</div>}
             </button>
-            <div onClick={showNotificationModal} className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 text-lg bg-secondary px-4 h-12" >
+            <div onClick={showNotificationModal} className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 bg-secondary px-4 text-md h-12" >
               <IoMdNotificationsOutline className="h-5 w-5" />{notsNumber !== 0 && <span className="w-6 h-6 rounded-full bg-blue flex justify-center items-center text-sm text-ascent-1">{notsNumber}</span>}
               Notifications
             </div>
 
-            <div className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 text-lg bg-secondary px-4 h-12" onClick={() => dispatch(Logout())}><BiLogOut /> Logout</div>
+            <div className="w-full flex items-center gap-3 cursor-pointer text-ascent-1 bg-secondary px-4 text-md h-12" onClick={() => dispatch(Logout())}><BiLogOut /> Logout</div>
 
           </div>
         }
