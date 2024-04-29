@@ -3,7 +3,7 @@ import { MultiChatSocket,MultiChatWindow,useMultiChatLogic } from "react-chat-en
 
 function Advanced({chatUser}) {
     const chatProps = useMultiChatLogic (
-        "0838887b-b9d0-437c-bd9c-719bcf250e36",chatUser?.chatUser,chatUser?.chatSecret
+        "4e40e4ad-de30-493d-a57d-56f6d19e49b3",chatUser?.chatUser,chatUser?.chatSecret
       )
       return (
         <div style={{ height: "100vh" }}>
